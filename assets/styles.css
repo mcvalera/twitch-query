@@ -17,7 +17,8 @@ body {
           display: none;
           color: white;
           font-size: 75%;
-          margin: 5px 0 0 0; }
+          margin: 5px 0 0 0;
+          position: absolute; }
           body main section.search #invalid-input.show {
             display: block; }
       body main section#results {

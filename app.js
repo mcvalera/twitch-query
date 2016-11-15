@@ -56,6 +56,7 @@ function Search() {
       var h = document.getElementsByTagName('script')[0];
       h.parentNode.insertBefore(s, h);
     } else {
+      tmpl.clearResultsContainer();
       invalidInputEl.className += 'show';
       throw new Error('query invalid');
     }
@@ -68,6 +69,9 @@ function Template() {
   this.resultsContainer = document.getElementById('results-container');
   this.numResultsContainer = document.getElementById('num-results');
   this.paginationContainer = document.getElementById('pagination');
+  this.clearResultsContainer = function() {
+    this.resultsContainer.innerHTML = '';
+  }
   this.getCurrentPage = function() {
     return parseInt(this.paginationContainer.getAttribute('data-current-page'));
   }
@@ -82,9 +86,8 @@ function Template() {
       search.results = response;
       console.log('SEARCH.RESULTS', search.results);
       var streams = response.streams;
-      var results = that.resultsContainer;
-      results.innerHTML = ''; // clear results to prevent appending next results to bottom
 
+      that.clearResultsContainer();
       that.paginate();
 
       streams.forEach(function(stream) {
@@ -96,7 +99,7 @@ function Template() {
           numViews: stream.viewers,
           description: stream.channel.status
         }
-        results.innerHTML += template.replace(/{(\w+)}/g, function($0, $1) {
+        that.resultsContainer.innerHTML += template.replace(/{(\w+)}/g, function($0, $1) {
             return data[$1];
         });
       });

@@ -22,6 +22,7 @@ body {
           color: white;
           font-size: 75%;
           margin: 5px 0 0 0;
+          position: absolute;
           &.show {
             display: block;
           }
@@ -47,16 +48,6 @@ body {
           #next:after {
             content: '\2192';
           }
-          // &:hover:before, &:hover:after {
-          //   cursor: pointer;
-          //   color: blue;
-          // }
-          // &:before {
-          //   content: '\2190';
-          // }
-          // &:after {
-          //   content: '\2192';
-          // }
         }
         .result-container {
           border: 1px solid $lightGray;
