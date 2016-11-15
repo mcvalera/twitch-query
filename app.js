@@ -6,24 +6,23 @@ function Search(query) {
   this.totalResults = 0;
   this.getNumPages = function() {
     return Math.ceil(this.totalResults / this.numResultsPerPage);
-  }
+  };
+  this.buildUri = function(params) {
+    var baseUri = 'https://api.twitch.tv/kraken';
+    var endPoint = '/search/streams';
+    return baseUri + endPoint + '?' + this.serialize(params);
+  };
+  this.serialize = function(params) {
+      var query = [];
+    for (var p in params) {
+      query.push(p + '=' + params[p]);
+    }
+    return query.join('&');
+  };
 }
 
+// init search with empty query
 var search = new Search('');
-
-function buildUri(params) {
-  var baseUri = 'https://api.twitch.tv/kraken';
-  var endPoint = '/search/streams';
-  return baseUri + endPoint + '?' + serialize(params);
-}
-
-function serialize(params) {
-  var query = [];
-  for (var p in params) {
-    query.push(p + '=' + params[p]);
-  }
-  return query.join('&');
-}
 
 function populateTemplate(response) {
   search.results = response;
@@ -95,7 +94,7 @@ function makeRequest(offset) {
 
   var s = document.createElement('script');
   s.type = 'text/javascript';
-  s.src = buildUri(params);
+  s.src = search.buildUri(params);
 
   var h = document.getElementsByTagName('script')[0];
   h.parentNode.insertBefore(s, h);
