@@ -30,6 +30,10 @@ body {
       }
       &#results {
         padding: 15px;
+        display: none;
+        &.show {
+          display: block;
+        }
         #num-results, #pagination {
           display: inline-block;
           margin: 0 0 10px 0;

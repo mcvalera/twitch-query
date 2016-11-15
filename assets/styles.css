@@ -22,7 +22,10 @@ body {
           body main section.search #invalid-input.show {
             display: block; }
       body main section#results {
-        padding: 15px; }
+        padding: 15px;
+        display: none; }
+        body main section#results.show {
+          display: block; }
         body main section#results #num-results, body main section#results #pagination {
           display: inline-block;
           margin: 0 0 10px 0; }

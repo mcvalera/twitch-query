@@ -34,6 +34,7 @@ function Search() {
       if (invalidInputEl.classList.contains('show')) {
         invalidInputEl.className = '';
       }
+      tmpl.showResultsSection();
       var current = tmpl.getCurrentPage();
 
       if (offset) {
@@ -55,6 +56,7 @@ function Search() {
       var h = document.getElementsByTagName('script')[0];
       h.parentNode.insertBefore(s, h);
     } else {
+      tmpl.hideResultsSection();
       tmpl.clearResultsContainer();
       invalidInputEl.className += 'show';
       throw new Error('query invalid');
@@ -64,10 +66,18 @@ function Search() {
 }
 
 function Template() {
-  this.resultsTemplate = document.getElementById('result-template').innerHTML;
+  this.resultsSection = document.getElementById('results');
   this.resultsContainer = document.getElementById('results-container');
+  this.resultsTemplate = document.getElementById('result-template').innerHTML;
   this.numResultsContainer = document.getElementById('num-results');
   this.paginationContainer = document.getElementById('pagination');
+  this.showResultsSection = function() {
+    this.resultsSection.className = 'show';
+  }
+  this.hideResultsSection = function() {
+    var section = this.resultsSection;
+    if (section.classList.contains('show')) { section.className = ''; }
+  }
   this.clearResultsContainer = function() {
     this.resultsContainer.innerHTML = '';
   }
