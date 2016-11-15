@@ -75,17 +75,26 @@ body {
           margin: 0 0 10px 0; }
         body main section#results #pagination {
           float: right; }
-          body main section#results #pagination #prev:hover, body main section#results #pagination #next:hover {
-            cursor: pointer;
-            color: #6441a4; }
+          body main section#results #pagination #prev, body main section#results #pagination #next {
+            transition: color 0.4s; }
+            body main section#results #pagination #prev:hover, body main section#results #pagination #next:hover {
+              cursor: pointer;
+              color: #b19dd8; }
           body main section#results #pagination #prev:before {
             content: '\2190'; }
           body main section#results #pagination #next:after {
             content: '\2192'; }
         body main section#results .result-container {
+          text-decoration: none;
+          display: block;
+          color: inherit;
           border: 1px solid #cccccc;
           padding: 10px;
-          margin: 10px 0; }
+          margin: 10px 0;
+          background-color: white;
+          transition: background-color 0.4s; }
+          body main section#results .result-container:hover {
+            background-color: #f2f2f2; }
           body main section#results .result-container .preview-img {
             background-position: center;
             background-size: cover;

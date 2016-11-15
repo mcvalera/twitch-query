@@ -101,6 +101,7 @@ function Template() {
       streams.forEach(function(stream) {
         var template = that.resultsTemplate;
         var data = {
+          streamUrl: stream.channel.url,
           displayName: stream.channel.display_name,
           imgUrl: stream.preview.medium,
           gameName: stream.channel.game,

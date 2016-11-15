@@ -21,15 +21,15 @@
 
   <body>
     <main>
-      <section class='search'>
+      <section class=search>
         <h1>Search through streams on Twitch</h1>
-        <div id='search-container'>
+        <div id=search-container>
           <input id="query-input" placeholder="Search query..."></input>
           <button id="search">Search</button>
-          <p id='invalid-input'>Query invalid!</p>
+          <p id=invalid-input>Query invalid!</p>
         </div>
       </section>
-      <section id='results'>
+      <section id=results>
         <p id="num-results"></p>
         <p id="pagination" data-current-page="1"></p>
 
@@ -38,20 +38,20 @@
         I personally find this approach more convenient,
         and I like that I can also see the template within the context of the DOM that I am utilizing it on
          -->
-        <script type='html/template' id='result-template'>
-            <div class='result-container'>
-              <div class='preview-img' style="background-image:url('{imgUrl}')"></div>
-              <div class='text-info'>
-                <h2 class='display-name'>{displayName}</h2>
-                <div class='details'>
+        <script type=html/template id=result-template>
+            <a href="{streamUrl}" target="_blank" class=result-container>
+              <div class=preview-img style="background-image:url('{imgUrl}')"></div>
+              <div class="text-info">
+                <h2 class="display-name">{displayName}</h2>
+                <div class="details">
                   <p class="game-name">{gameName} | <span>{numViews} viewers</span></p>
                   <p class="description">{description}</p>
                 </div>
               </div>
-            </div>
+            </a>
           </script>
 
-        <div id='results-container'></div>
+        <div id="results-container"></div>
       </section>
     </main>
   </body>

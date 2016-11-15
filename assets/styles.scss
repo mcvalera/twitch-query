@@ -1,19 +1,16 @@
 $twitchTheme: #6441a4;
 $twitchLight: #b19dd8;
+$lightestGray: #f2f2f2;
 $lightGray: #cccccc;
 $titleGray: #d9d9d9;
 $text: #555555;
+
 $borderRad: 2px;
 
 $breakpointSmall: 400px;
 $breakpointMedium: 650px;
 
-@mixin prefixify($property, $value, $prefixes: ()) {
-  @each $prefix in $prefixes {
-    #{'-' + $prefix + '-' + $property}: $value;
-  }
-  #{$property}: $value;
-}
+$transitionLen: 0.4s;
 
 body {
   font-family: 'Lato', sans-serif;
@@ -65,13 +62,11 @@ body {
           color: whitesmoke;
         }
         button#search {
-          // border-color: $twitchLight;
           background-color: $twitchLight;
-          // background-color: white;
           color: whitesmoke;
           border: 2px solid $twitchLight;
           border-radius: $borderRad;
-          transition: all 0.4s;
+          transition: all $transitionLen;
           height: 35px;
           min-width: 75px;
           margin-left: 10px;
@@ -107,9 +102,10 @@ body {
         #pagination {
           float: right;
           #prev,#next {
+            transition: color $transitionLen;
             &:hover {
               cursor: pointer;
-              color: $twitchTheme;
+              color: $twitchLight;
             }
           }
           #prev:before {
@@ -120,9 +116,17 @@ body {
           }
         }
         .result-container {
+          text-decoration: none;
+          display: block;
+          color: inherit;
           border: 1px solid $lightGray;
           padding: 10px;
           margin: 10px 0;
+          background-color: white;
+          transition: background-color $transitionLen;
+          &:hover {
+            background-color: $lightestGray;
+          }
           .preview-img {
             background-position: center;
             background-size: cover;
