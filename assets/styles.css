@@ -13,6 +13,14 @@ body {
       body main section.search {
         padding: 25px 15px;
         background-color: #6441a4; }
+        body main section.search h1 {
+          color: #d9d9d9;
+          margin-top: 0;
+          font-size: 1.2em; }
+          @media (min-width: 650px) {
+            body main section.search h1 {
+              text-align: center;
+              font-size: 1.5em; } }
         body main section.search #search-container {
           max-width: 515px; }
           @media (min-width: 650px) {

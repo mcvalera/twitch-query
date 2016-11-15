@@ -1,7 +1,7 @@
 $twitchTheme: #6441a4;
 $twitchLight: #b19dd8;
 $lightGray: #cccccc;
-$gray: #c9c9c9;
+$titleGray: #d9d9d9;
 $text: #555555;
 $borderRad: 2px;
 
@@ -30,6 +30,15 @@ body {
       &.search {
         padding: 25px 15px;
         background-color: $twitchTheme;
+        h1 {
+          color: $titleGray;
+          margin-top: 0;
+          font-size: 1.2em;
+          @media(min-width: $breakpointMedium) {
+            text-align: center;
+            font-size: 1.5em;
+          }
+        }
         #search-container {
           max-width: 515px;
           @media(min-width: $breakpointMedium) {

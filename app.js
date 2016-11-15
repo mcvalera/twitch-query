@@ -44,7 +44,7 @@ function Search() {
       var params = {
         q: query,
         limit: this.numResultsPerPage,
-        client_id: 'swwh0dw19c4acl530o3ytjfopb63wb8',
+        client_id: 'swwh0dw19c4acl530o3ytjfopb63wb8', // according to Twitch Doc: 'Client IDs are public and can be shared (e.g. embedded in the source of a web page)''
         callback: 'tmpl.populateTemplate',
         offset: offset || 0
       }
