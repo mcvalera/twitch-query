@@ -46,9 +46,9 @@ body {
           font-weight: bold;
           box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19); }
           body main section.search button#search:hover {
-            border-color: #b19dd8;
-            background-color: #b19dd8;
-            color: white; }
+            border-color: #997fcc;
+            background-color: #997fcc;
+            color: #6441a4; }
         body main section.search #invalid-input {
           display: none;
           color: white;
