@@ -5,9 +5,9 @@
     <meta name="description" content="Search through streams on Twitch">
     <meta name="keyword" content="search, Twitch, streams, gaming, API">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="assets/styles.css">
-
   </head>
 
 <!-- Rules:
@@ -21,15 +21,15 @@
 
   <body>
     <main>
-      <section class=search>
+      <section class="search">
         <h1>Search through streams on Twitch</h1>
-        <div id=search-container>
+        <div id="search-container">
           <input id="query-input" placeholder="Search query..."></input>
           <button id="search">Search</button>
-          <p id=invalid-input>Query invalid!</p>
+          <p id="invalid-input">Query invalid!</p>
         </div>
       </section>
-      <section id=results>
+      <section id="results">
         <p id="num-results"></p>
         <p id="pagination" data-current-page="1"></p>
 
@@ -38,9 +38,9 @@
         I personally find this approach more convenient,
         and I like that I can also see the template within the context of the DOM that I am utilizing it on
          -->
-        <script type=html/template id=result-template>
-            <a href="{streamUrl}" target="_blank" class=result-container>
-              <div class=preview-img style="background-image:url('{imgUrl}')"></div>
+        <script type="html/template" id="result-template">
+            <a href="{streamUrl}" target="_blank" class="result-container">
+              <div class="preview-img" style="background-image:url('{imgUrl}')"></div>
               <div class="text-info">
                 <h2 class="display-name">{displayName}</h2>
                 <div class="details">
