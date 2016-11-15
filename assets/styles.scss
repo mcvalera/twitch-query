@@ -17,6 +17,15 @@ body {
       &.search {
         padding: 25px 15px;
         background-color: $twitchTheme;
+        #invalid-input {
+          display: none;
+          color: white;
+          font-size: 75%;
+          margin: 5px 0 0 0;
+          &.show {
+            display: block;
+          }
+        }
       }
       &#results {
         padding: 15px;

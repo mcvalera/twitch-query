@@ -13,6 +13,13 @@ body {
       body main section.search {
         padding: 25px 15px;
         background-color: #6441a4; }
+        body main section.search #invalid-input {
+          display: none;
+          color: white;
+          font-size: 75%;
+          margin: 5px 0 0 0; }
+          body main section.search #invalid-input.show {
+            display: block; }
       body main section#results {
         padding: 15px; }
         body main section#results #num-results, body main section#results #pagination {

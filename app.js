@@ -4,6 +4,15 @@ function Search() {
   this.numResultsPerPage = 10;
   this.results = null;
   this.totalResults = 0;
+  this.getQuery = function() {
+    this.query = document.getElementById('query-input').value;
+    return this.query;
+  }
+  this.isQueryValid = function() {
+    console.log('is valid? ', this.query);
+    if (this.query.length > 0) { return true; }
+    return false;
+  }
   this.getNumPages = function() {
     return Math.ceil(this.totalResults / this.numResultsPerPage);
   };
@@ -20,28 +29,37 @@ function Search() {
     return query.join('&');
   };
   this.makeRequest = function(offset) {
-    this.query = document.getElementById('query-input').value;
-    console.log('SEARCH.QUERY, ', this.query);
-    var current = tmpl.getCurrentPage();
+    var query = this.getQuery();
+    var invalidInputEl = document.getElementById('invalid-input');
+    if (this.isQueryValid()) {
+      if (invalidInputEl.classList.contains('show')) {
+        invalidInputEl.className = '';
+      }
+      var current = tmpl.getCurrentPage();
 
-    if (offset) {
-      offset = (current - 1) * 10;
+      if (offset) {
+        offset = (current - 1) * 10;
+      }
+
+      var params = {
+        q: query,
+        limit: this.numResultsPerPage,
+        client_id: 'swwh0dw19c4acl530o3ytjfopb63wb8',
+        callback: 'tmpl.populateTemplate',
+        offset: offset || 0
+      }
+
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.src = this.buildUri(params);
+
+      var h = document.getElementsByTagName('script')[0];
+      h.parentNode.insertBefore(s, h);
+    } else {
+      invalidInputEl.className += 'show';
+      throw new Error('query invalid');
     }
 
-    var params = {
-      q: this.query,
-      limit: this.numResultsPerPage,
-      client_id: 'swwh0dw19c4acl530o3ytjfopb63wb8',
-      callback: 'tmpl.populateTemplate',
-      offset: offset || 0
-    }
-
-    var s = document.createElement('script');
-    s.type = 'text/javascript';
-    s.src = this.buildUri(params);
-
-    var h = document.getElementsByTagName('script')[0];
-    h.parentNode.insertBefore(s, h);
   };
 }
 
@@ -58,29 +76,31 @@ function Template() {
   }
   this.populateTemplate = function(response) {
     var that = this;
-    search.results = response;
     search.totalResults = response._total;
-    console.log('SEARCH.RESULTS', search.results);
-    var streams = response.streams;
-    var results = that.resultsContainer;
-    results.innerHTML = ''; // clear results to prevent appending next results to bottom
-
     that.setTotalResults();
-    that.paginate();
+    if (search.totalResults > 0) {
+      search.results = response;
+      console.log('SEARCH.RESULTS', search.results);
+      var streams = response.streams;
+      var results = that.resultsContainer;
+      results.innerHTML = ''; // clear results to prevent appending next results to bottom
 
-    streams.forEach(function(stream) {
-      var template = that.resultsTemplate;
-      var data = {
-        displayName: stream.channel.display_name,
-        imgUrl: stream.preview.medium,
-        gameName: stream.channel.game,
-        numViews: stream.viewers,
-        description: stream.channel.status
-      }
-      results.innerHTML += template.replace(/{(\w+)}/g, function($0, $1) {
-          return data[$1];
+      that.paginate();
+
+      streams.forEach(function(stream) {
+        var template = that.resultsTemplate;
+        var data = {
+          displayName: stream.channel.display_name,
+          imgUrl: stream.preview.medium,
+          gameName: stream.channel.game,
+          numViews: stream.viewers,
+          description: stream.channel.status
+        }
+        results.innerHTML += template.replace(/{(\w+)}/g, function($0, $1) {
+            return data[$1];
+        });
       });
-    });
+    }
   };
   this.setTotalResults = function() {
     this.numResultsContainer.innerHTML = 'Total results: ' + search.totalResults;
