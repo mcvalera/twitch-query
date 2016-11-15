@@ -53,8 +53,7 @@ function Search() {
       s.type = 'text/javascript';
       s.src = this.buildUri(params);
 
-      var h = document.getElementsByTagName('script')[0];
-      h.parentNode.insertBefore(s, h);
+      document.head.appendChild(s);
     } else {
       tmpl.hideResultsSection();
       tmpl.clearResultsContainer();
