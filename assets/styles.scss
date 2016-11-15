@@ -150,6 +150,9 @@ body {
             @media(min-width: $breakpointMedium) {
               width: 57%;
             }
+            .game-name span {
+              white-space: nowrap;
+            }
           }
 
         }

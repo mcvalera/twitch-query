@@ -112,5 +112,7 @@ body {
             @media (min-width: 650px) {
               body main section#results .result-container .text-info {
                 width: 57%; } }
+            body main section#results .result-container .text-info .game-name span {
+              white-space: nowrap; }
 
 /*# sourceMappingURL=styles.css.map */
