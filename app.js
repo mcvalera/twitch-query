@@ -58,7 +58,7 @@ function Search() {
     } else {
       tmpl.hideResultsSection();
       tmpl.clearResultsContainer();
-      invalidInputEl.className += 'show';
+      invalidInputEl.className = 'show';
       throw new Error('query invalid');
     }
 

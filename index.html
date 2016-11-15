@@ -29,18 +29,24 @@
         <p id="num-results"></p>
         <p id="pagination" data-current-page="1"></p>
 
+        <!--
+        below is a script with an unknown type (so it won't render) for templating purposes
+        I personally find this approach more convenient,
+        and I like that I can also see the template within the context of the DOM that I am utilizing it on
+         -->
         <script type='html/template' id='result-template'>
             <div class='result-container'>
               <div class='preview-img' style="background-image:url('{imgUrl}')"></div>
               <div class='text-info'>
                 <h2 class='display-name'>{displayName}</h2>
                 <div class='details'>
-                  <p class="game-name">{gameName} &#8226; <span>{numViews} viewers</span></p>
+                  <p class="game-name">{gameName} | <span>{numViews} viewers</span></p>
                   <p class="description">{description}</p>
                 </div>
               </div>
             </div>
           </script>
+
         <div id='results-container'></div>
       </section>
     </main>
