@@ -13,7 +13,7 @@ function Search(query) {
     return baseUri + endPoint + '?' + this.serialize(params);
   };
   this.serialize = function(params) {
-      var query = [];
+    var query = [];
     for (var p in params) {
       query.push(p + '=' + params[p]);
     }
@@ -31,7 +31,7 @@ function Search(query) {
     var params = {
       q: this.query,
       client_id: 'swwh0dw19c4acl530o3ytjfopb63wb8',
-      callback: 'populateTemplate',
+      callback: 'tmpl.populateTemplate',
       offset: offset || 0
     }
 
@@ -41,51 +41,59 @@ function Search(query) {
 
     var h = document.getElementsByTagName('script')[0];
     h.parentNode.insertBefore(s, h);
-  }
+  };
 }
 
 // init search with empty query
 var search = new Search('');
+var tmpl = new Template();
 
-function populateTemplate(response) {
-  search.results = response;
-  search.totalResults = response._total;
-  console.log('SEARCH.RESULTS', search.results);
-  var streams = response.streams;
-  var results = document.getElementById('results-container');
-  results.innerHTML = '';
+function Template() {
+  this.resultsTemplate = document.getElementById('result-template').innerHTML;
+  this.resultsContainer = document.getElementById('results-container');
+  this.numResultsTemplate = document.getElementById('num-results');
+  this.paginationTemplate = document.getElementById('pagination');
+  this.currentPage = this.paginationTemplate.getAttribute('data-current-page')
+  this.populateTemplate = function(response) {
+    var that = this;
+    search.results = response;
+    search.totalResults = response._total;
+    console.log('SEARCH.RESULTS', search.results);
+    var streams = response.streams;
+    var results = that.resultsContainer;
+    results.innerHTML = ''; // clear results to prevent appending next results to bottom
 
-  setTotalResults();
-  pagination();
+    that.setTotalResults();
+    that.paginate();
 
-  streams.forEach(function(stream) {
-    var template = document.getElementById('result-template').innerHTML;
-    var data = {
-      displayName: stream.channel.display_name,
-      imgUrl: stream.preview.medium,
-      gameName: stream.channel.game,
-      numViews: stream.viewers,
-      description: stream.channel.status
-    }
-    results.innerHTML += template.replace(/{(\w+)}/g, function($0, $1) {
-        return data[$1];
+    streams.forEach(function(stream) {
+      var template = that.resultsTemplate;
+      // console.log('this in streams for each', that);
+      // console.log('RESULTS TEMPLATE! ', that.resultsTemplate);
+      //document.getElementById('result-template').innerHTML;
+      var data = {
+        displayName: stream.channel.display_name,
+        imgUrl: stream.preview.medium,
+        gameName: stream.channel.game,
+        numViews: stream.viewers,
+        description: stream.channel.status
+      }
+      results.innerHTML += template.replace(/{(\w+)}/g, function($0, $1) {
+          return data[$1];
+      });
     });
-  });
+  };
+  this.setTotalResults = function() {
+    this.numResultsTemplate.innerHTML = 'Total results: ' + search.totalResults;
+  };
+  this.paginate = function() {
+    var numPages = search.getNumPages();
+    var el = this.paginationTemplate;
+    var current = el.getAttribute('data-current-page');
 
-}
-
-function setTotalResults() {
-  var el = document.getElementById('num-results');
-  el.innerHTML = 'Total results: ' + search.totalResults;
-}
-
-function pagination() {
-  var numPages = search.getNumPages();
-  var el = document.getElementById('pagination');
-  var current = el.getAttribute('data-current-page');
-
-  el.innerHTML = '<span id="prev"></span>' + current + '/' + numPages + '<span id="next"></span>';
-  addListenerToPagination(numPages);
+    el.innerHTML = '<span id="prev"></span>' + current + '/' + numPages + '<span id="next"></span>';
+    addListenerToPagination(numPages);
+  }
 }
 
 // make request either via clicking search button, or by pressing enter on input box
