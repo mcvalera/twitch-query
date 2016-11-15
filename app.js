@@ -81,11 +81,11 @@ function Template() {
     var that = this;
     search.totalResults = response._total;
     that.setTotalResults();
+    that.clearResultsContainer();
     if (search.totalResults > 0) {
       search.results = response;
       var streams = response.streams;
 
-      that.clearResultsContainer();
       that.paginate();
 
       streams.forEach(function(stream) {
@@ -101,6 +101,8 @@ function Template() {
             return data[$1];
         });
       });
+    } else {
+      that.clearPagination();
     }
   };
   this.setTotalResults = function() {
@@ -109,6 +111,9 @@ function Template() {
   this.paginate = function() {
     this.paginationContainer.innerHTML = '<span id="prev"></span>' + this.getCurrentPage() + '/' + search.getNumPages() + '<span id="next"></span>';
     this.addListenerToPagination();
+  }
+  this.clearPagination = function() {
+    this.paginationContainer.innerHTML = '';
   }
   this.addListenerToPagination = function() {
     var that = this;
