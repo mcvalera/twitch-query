@@ -9,7 +9,6 @@ function Search() {
     return this.query;
   }
   this.isQueryValid = function() {
-    console.log('is valid? ', this.query);
     if (this.query.length > 0) { return true; }
     return false;
   }
@@ -84,7 +83,6 @@ function Template() {
     that.setTotalResults();
     if (search.totalResults > 0) {
       search.results = response;
-      console.log('SEARCH.RESULTS', search.results);
       var streams = response.streams;
 
       that.clearResultsContainer();
