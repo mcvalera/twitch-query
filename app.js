@@ -19,6 +19,29 @@ function Search(query) {
     }
     return query.join('&');
   };
+  this.makeRequest = function(offset) {
+    this.query = document.getElementById('query-input').value;
+    console.log('SEARCH.QUERY, ', this.query);
+    var current = document.getElementById('pagination').getAttribute('data-current-page');
+
+    if (offset) {
+      offset = (current - 1) * 10;
+    }
+
+    var params = {
+      q: this.query,
+      client_id: 'swwh0dw19c4acl530o3ytjfopb63wb8',
+      callback: 'populateTemplate',
+      offset: offset || 0
+    }
+
+    var s = document.createElement('script');
+    s.type = 'text/javascript';
+    s.src = this.buildUri(params);
+
+    var h = document.getElementsByTagName('script')[0];
+    h.parentNode.insertBefore(s, h);
+  }
 }
 
 // init search with empty query
@@ -67,60 +90,34 @@ function pagination() {
 
 // make request either via clicking search button, or by pressing enter on input box
 document.getElementById('search').onclick = function() {
-  makeRequest();
+  search.makeRequest();
 }
 
 document.getElementById('query-input').addEventListener('keydown', function(e) {
   if (e.keyCode === 13) {
-    makeRequest();
+    search.makeRequest();
   }
 });
-
-function makeRequest(offset) {
-  search.query = document.getElementById('query-input').value;
-  console.log('SEARCH.QUERY, ', search.query);
-  var current = document.getElementById('pagination').getAttribute('data-current-page');
-
-  if (offset) {
-    offset = (current - 1) * 10;
-  }
-
-  var params = {
-    q: search.query,
-    client_id: 'swwh0dw19c4acl530o3ytjfopb63wb8',
-    callback: 'populateTemplate',
-    offset: offset || 0
-  }
-
-  var s = document.createElement('script');
-  s.type = 'text/javascript';
-  s.src = search.buildUri(params);
-
-  var h = document.getElementsByTagName('script')[0];
-  h.parentNode.insertBefore(s, h);
-}
 
 // go through pagination results
 function addListenerToPagination(numPages) {
   document.getElementById('next').addEventListener('click', function(e) {
-    var offset = 'next';
     var pagination = document.getElementById('pagination');
     var current = parseInt(pagination.getAttribute('data-current-page'));
     if (current < numPages) {
       current += 1;
       pagination.setAttribute('data-current-page', current);
-      makeRequest(offset);
+      search.makeRequest(true);
     }
   });
 
   document.getElementById('prev').addEventListener('click', function(e) {
-    var offset = 'prev';
     var pagination = document.getElementById('pagination');
     var current = parseInt(pagination.getAttribute('data-current-page'));
     if (current > 1) {
       current -= 1;
       pagination.setAttribute('data-current-page', current);
-      makeRequest(offset);
+      search.makeRequest(true);
     }
 
   });
