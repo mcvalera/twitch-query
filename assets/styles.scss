@@ -1,0 +1,90 @@
+$twitchTheme: #6441a4;
+$lightGray: #cccccc;
+$text: #555555;
+
+body {
+  font-family: 'Lato', sans-serif;
+  color: $text;
+  main {
+    width: 90%;
+    @media(min-width: 780px) {
+      width: 80%;
+      min-width: 200px;
+    }
+    margin: 0 auto;
+    section {
+      border: 1px solid $twitchTheme;
+      &.search {
+        padding: 25px 15px;
+        background-color: $twitchTheme;
+      }
+      &#results {
+        padding: 15px;
+        #num-results, #pagination {
+          display: inline-block;
+          margin: 0 0 10px 0;
+        }
+        #pagination {
+          float: right;
+          #prev,#next {
+            &:hover {
+              cursor: pointer;
+              color: $twitchTheme;
+            }
+          }
+          #prev:before {
+            content: '\2190';
+          }
+          #next:after {
+            content: '\2192';
+          }
+          // &:hover:before, &:hover:after {
+          //   cursor: pointer;
+          //   color: blue;
+          // }
+          // &:before {
+          //   content: '\2190';
+          // }
+          // &:after {
+          //   content: '\2192';
+          // }
+        }
+        .result-container {
+          border: 1px solid $lightGray;
+          padding: 10px;
+          margin: 10px 0;
+          .preview-img {
+            background-position: center;
+            background-size: cover;
+            vertical-align: middle;
+            display: inline-block;
+            height: 120px;
+            width: 45%;
+            @media(min-width:400px) {
+              width: 100%;
+              height: 180px;
+              max-width: 320px;
+              margin-right: 10px;
+            }
+            @media(min-width:650px) {
+              width: 40%;
+            }
+          }
+          .text-info {
+            vertical-align: middle;
+            display: inline-block;
+            width: 54%;
+            @media(min-width:400px) {
+              width: 100%;
+            }
+            @media(min-width:650px) {
+              width: 57%;
+            }
+          }
+
+        }
+      }
+
+    }
+  }
+}

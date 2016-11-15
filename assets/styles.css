@@ -1,0 +1,61 @@
+body {
+  font-family: 'Lato', sans-serif;
+  color: #555555; }
+  body main {
+    width: 90%;
+    margin: 0 auto; }
+    @media (min-width: 780px) {
+      body main {
+        width: 80%;
+        min-width: 200px; } }
+    body main section {
+      border: 1px solid #6441a4; }
+      body main section.search {
+        padding: 25px 15px;
+        background-color: #6441a4; }
+      body main section#results {
+        padding: 15px; }
+        body main section#results #num-results, body main section#results #pagination {
+          display: inline-block;
+          margin: 0 0 10px 0; }
+        body main section#results #pagination {
+          float: right; }
+          body main section#results #pagination #prev:hover, body main section#results #pagination #next:hover {
+            cursor: pointer;
+            color: #6441a4; }
+          body main section#results #pagination #prev:before {
+            content: '\2190'; }
+          body main section#results #pagination #next:after {
+            content: '\2192'; }
+        body main section#results .result-container {
+          border: 1px solid #cccccc;
+          padding: 10px;
+          margin: 10px 0; }
+          body main section#results .result-container .preview-img {
+            background-position: center;
+            background-size: cover;
+            vertical-align: middle;
+            display: inline-block;
+            height: 120px;
+            width: 45%; }
+            @media (min-width: 400px) {
+              body main section#results .result-container .preview-img {
+                width: 100%;
+                height: 180px;
+                max-width: 320px;
+                margin-right: 10px; } }
+            @media (min-width: 650px) {
+              body main section#results .result-container .preview-img {
+                width: 40%; } }
+          body main section#results .result-container .text-info {
+            vertical-align: middle;
+            display: inline-block;
+            width: 54%; }
+            @media (min-width: 400px) {
+              body main section#results .result-container .text-info {
+                width: 100%; } }
+            @media (min-width: 650px) {
+              body main section#results .result-container .text-info {
+                width: 57%; } }
+
+/*# sourceMappingURL=styles.css.map */
