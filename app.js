@@ -1,6 +1,6 @@
 
-function Search(query) {
-  this.query = query;
+function Search() {
+  this.query = null;
   this.numResultsPerPage = 10;
   this.results = null;
   this.totalResults = 0;
@@ -22,7 +22,7 @@ function Search(query) {
   this.makeRequest = function(offset) {
     this.query = document.getElementById('query-input').value;
     console.log('SEARCH.QUERY, ', this.query);
-    var current = document.getElementById('pagination').getAttribute('data-current-page');
+    var current = tmpl.getCurrentPage();
 
     if (offset) {
       offset = (current - 1) * 10;
@@ -30,6 +30,7 @@ function Search(query) {
 
     var params = {
       q: this.query,
+      limit: this.numResultsPerPage,
       client_id: 'swwh0dw19c4acl530o3ytjfopb63wb8',
       callback: 'tmpl.populateTemplate',
       offset: offset || 0
@@ -44,16 +45,17 @@ function Search(query) {
   };
 }
 
-// init search with empty query
-var search = new Search('');
-var tmpl = new Template();
-
 function Template() {
   this.resultsTemplate = document.getElementById('result-template').innerHTML;
   this.resultsContainer = document.getElementById('results-container');
-  this.numResultsTemplate = document.getElementById('num-results');
-  this.paginationTemplate = document.getElementById('pagination');
-  this.currentPage = this.paginationTemplate.getAttribute('data-current-page')
+  this.numResultsContainer = document.getElementById('num-results');
+  this.paginationContainer = document.getElementById('pagination');
+  this.getCurrentPage = function() {
+    return parseInt(this.paginationContainer.getAttribute('data-current-page'));
+  }
+  this.setCurrentPage = function(val) {
+    this.paginationContainer.setAttribute('data-current-page', val);
+  }
   this.populateTemplate = function(response) {
     var that = this;
     search.results = response;
@@ -68,9 +70,6 @@ function Template() {
 
     streams.forEach(function(stream) {
       var template = that.resultsTemplate;
-      // console.log('this in streams for each', that);
-      // console.log('RESULTS TEMPLATE! ', that.resultsTemplate);
-      //document.getElementById('result-template').innerHTML;
       var data = {
         displayName: stream.channel.display_name,
         imgUrl: stream.preview.medium,
@@ -84,50 +83,47 @@ function Template() {
     });
   };
   this.setTotalResults = function() {
-    this.numResultsTemplate.innerHTML = 'Total results: ' + search.totalResults;
+    this.numResultsContainer.innerHTML = 'Total results: ' + search.totalResults;
   };
   this.paginate = function() {
-    var numPages = search.getNumPages();
-    var el = this.paginationTemplate;
-    var current = el.getAttribute('data-current-page');
+    this.paginationContainer.innerHTML = '<span id="prev"></span>' + this.getCurrentPage() + '/' + search.getNumPages() + '<span id="next"></span>';
+    this.addListenerToPagination();
+  }
+  this.addListenerToPagination = function() {
+    var that = this;
+    document.getElementById('next').addEventListener('click', function(e) {
+      var current = that.getCurrentPage();
+      if (current < search.getNumPages()) {
+        current += 1;
+        tmpl.setCurrentPage(current);
+        search.makeRequest(true);
+      }
+    });
 
-    el.innerHTML = '<span id="prev"></span>' + current + '/' + numPages + '<span id="next"></span>';
-    addListenerToPagination(numPages);
+    document.getElementById('prev').addEventListener('click', function(e) {
+      var current = that.getCurrentPage();
+      if (current > 1) {
+        current -= 1;
+        tmpl.setCurrentPage(current);
+        search.makeRequest(true);
+      }
+    });
   }
 }
 
+var search = new Search();
+var tmpl = new Template();
+
 // make request either via clicking search button, or by pressing enter on input box
 document.getElementById('search').onclick = function() {
+  tmpl.setCurrentPage(1);
   search.makeRequest();
 }
 
 document.getElementById('query-input').addEventListener('keydown', function(e) {
   if (e.keyCode === 13) {
+    tmpl.setCurrentPage(1);
     search.makeRequest();
   }
 });
-
-// go through pagination results
-function addListenerToPagination(numPages) {
-  document.getElementById('next').addEventListener('click', function(e) {
-    var pagination = document.getElementById('pagination');
-    var current = parseInt(pagination.getAttribute('data-current-page'));
-    if (current < numPages) {
-      current += 1;
-      pagination.setAttribute('data-current-page', current);
-      search.makeRequest(true);
-    }
-  });
-
-  document.getElementById('prev').addEventListener('click', function(e) {
-    var pagination = document.getElementById('pagination');
-    var current = parseInt(pagination.getAttribute('data-current-page'));
-    if (current > 1) {
-      current -= 1;
-      pagination.setAttribute('data-current-page', current);
-      search.makeRequest(true);
-    }
-
-  });
-}
 
