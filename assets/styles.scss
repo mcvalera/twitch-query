@@ -1,6 +1,19 @@
 $twitchTheme: #6441a4;
+$twitchLight: #b19dd8;
 $lightGray: #cccccc;
+$gray: #c9c9c9;
 $text: #555555;
+$borderRad: 2px;
+
+$breakpointSmall: 400px;
+$breakpointMedium: 650px;
+
+@mixin prefixify($property, $value, $prefixes: ()) {
+  @each $prefix in $prefixes {
+    #{'-' + $prefix + '-' + $property}: $value;
+  }
+  #{$property}: $value;
+}
 
 body {
   font-family: 'Lato', sans-serif;
@@ -17,6 +30,50 @@ body {
       &.search {
         padding: 25px 15px;
         background-color: $twitchTheme;
+        #search-container {
+          max-width: 515px;
+          @media(min-width: $breakpointMedium) {
+            margin: 0 auto;
+          }
+        }
+        input {
+          padding: 10px;
+          border: none;
+          background-color: $twitchTheme;
+          border-bottom: solid 2px $twitchLight;
+          transition: border 0.3s;
+          width: calc(100% - 110px);
+          font-size: 16px;
+          @media(min-width: $breakpointMedium) {
+            max-width: 400px;
+            text-align: center;
+          }
+          &:focus {
+            border-bottom: solid 2px #969696;
+          }
+        }
+        input, select, textarea {
+          color: whitesmoke;
+        }
+        button#search {
+          // border-color: $twitchLight;
+          background-color: $twitchLight;
+          // background-color: white;
+          color: whitesmoke;
+          border: 2px solid $twitchLight;
+          border-radius: $borderRad;
+          transition: all 0.4s;
+          height: 35px;
+          min-width: 75px;
+          margin-left: 10px;
+          font-weight: bold;
+          box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+          &:hover {
+            border-color: $twitchLight;
+            background-color: $twitchLight;
+            color: white;
+          }
+        }
         #invalid-input {
           display: none;
           color: white;
@@ -64,13 +121,13 @@ body {
             display: inline-block;
             height: 120px;
             width: 45%;
-            @media(min-width:400px) {
+            @media(min-width: $breakpointSmall) {
               width: 100%;
               height: 180px;
               max-width: 320px;
               margin-right: 10px;
             }
-            @media(min-width:650px) {
+            @media(min-width: $breakpointMedium) {
               width: 40%;
             }
           }
@@ -78,10 +135,10 @@ body {
             vertical-align: middle;
             display: inline-block;
             width: 54%;
-            @media(min-width:400px) {
+            @media(min-width: $breakpointSmall) {
               width: 100%;
             }
-            @media(min-width:650px) {
+            @media(min-width: $breakpointMedium) {
               width: 57%;
             }
           }
